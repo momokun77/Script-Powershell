@@ -10,7 +10,7 @@ $name = Get-ChildItem -Path ($fichier) -File | Select-Object -ExpandProperty Ful
 
 ForEach ($PC in $name) {
    $PC2 = $PC | ForEach-Object {$_.split(".")[0]} 
-   Compress-Archive -LiteralPath $PC -DestinationPath $PC2 
+   Compress-Archive -LiteralPath $PC -DestinationPath $PC2 -CompressionLevel Optimal 
 }
 # On créé une boucle pour archiver chaque fichiers qui se trouvent dans le dossier.
 # {$_.split(".")[0]} permet de se débarrasser de l'extension des fichiers. 
