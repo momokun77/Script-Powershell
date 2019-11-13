@@ -1,5 +1,5 @@
 #Se mettre dans le répertoire où se trouve le script avec la commande [CD] pour l'exécuter.
-# PS C:\Users\[name_user]\desktop> .\purge.ps1 "C:\Users\[name_user]\Desktop\Nouveau dossier" 20
+# PS C:\Users\[name_user]\desktop> .\[name].ps1 "C:\Users\[name_user]\Desktop\Nouveau dossier" 20
 
 param([string]$fichier, [int]$date)
 
@@ -14,7 +14,7 @@ ForEach ($PC in $name) {
 }
 # On créé une boucle pour archiver chaque fichiers qui se trouvent dans le dossier.
 # {$_.split(".")[0]} permet de se débarrasser de l'extension des fichiers. 
-# $PC2 est ainsi un nom d'archive correcte (en incluent le chemin d'accès) pour chaque fichiers à archiver.
+# $PC2 est ainsi un nom d'archive correcte (en incluent le chemin d'accès) pour chaque fichier à archiver.
 # $PC2 correspond à l'exemple : C:\Users\[name_user]\Desktop\files1
 # Compress-Archive -LiteralPath $PC -DestinationPath $PC2 compresse les fichiers par fichier grâce aux variables.
 
