@@ -2,26 +2,18 @@
 # PS C:\Users\[name_user]\desktop> .\[name].ps1 "C:\Users\[name_user]\Desktop\Nouveau dossier" 20
 
 param([string]$fichier, [int]$date)
+# La commande Param([type]$variable), cette commande permet d'identifier la partie contenant les paramètres, et d'envoyer au script certaines données
 
 $name = Get-ChildItem -Path ($fichier) -File | Select-Object -ExpandProperty Fullname | Where CreationTime -lt (Get-Date).AddDays(-$date)
+
 # $name est la variable où se trouve les fichiers et ainsi que leurs extensions de fichier. Il comprend leurs chemins d'accès entré en paramètre après le nom du script.
 # Exemple d'exécution : C:\Users\[name_user]\Desktop\files1.txt
 
 
 ForEach ($PC in $name) {
    $PC2 = $PC | ForEach-Object {$_.split(".")[0]} 
-   Compress-Archive -LiteralPath $PC -DestinationPath $PC2 -CompressionLevel Optimal 
-   #Compact -LiteralPath $PC -DestinationPath $PC2 #Windows Server
+   Compress-Archive -LiteralPath $PC -DestinationPath $PC2 
 }
-
-# On créé une boucle pour archiver chaque fichiers qui se trouvent dans le dossier.
-# {$_.split(".")[0]} permet de se débarrasser de l'extension des fichiers. 
-# $PC2 est ainsi un nom d'archive correcte (en incluent le chemin d'accès) pour chaque fichier à archiver.
-# $PC2 correspond à l'exemple : C:\Users\[name_user]\Desktop\files1
-# Compress-Archive -LiteralPath $PC -DestinationPath $PC2 compresse les fichiers par fichier grâce aux variables
-
-#Windows server 2012r2 remplacer le Compress-Achive par Compact
-# Compact -LiteralPath $PC -DestinationPath $PC2 compresse les fichiers par fichier grâce aux variables
 
 # On créé une boucle pour archiver chaque fichiers qui se trouvent dans le dossier.
 # {$_.split(".")[0]} permet de se débarrasser de l'extension des fichiers. 
@@ -29,14 +21,13 @@ ForEach ($PC in $name) {
 # $PC2 correspond à l'exemple : C:\Users\[name_user]\Desktop\files1
 # Compress-Archive -LiteralPath $PC -DestinationPath $PC2 compresse les fichiers par fichier grâce aux variables.
 
-Get-ChildItem ($fichier) -File | Where CreationTime -lt (Get-Date).AddDays(-$date) | Remove-Item -Force
+Write-Host (Get-Date).AddDays(-$date) # Date suppression
+Write-Host (Get-Date) # Date jour
+
+Get-ChildItem ($fichier) -File | Where CreationTime -le (Get-Date).AddDays(-$date) | Remove-Item -Force
+ 
 #Get-ChildItem ($fichier) -File | Where CreationTime -ge (Get-Date).AddDays(-$date) | Remove-Item -Force
 
-# PS C:\Users\[name_user]\desktop> .\purge.ps1 "C:\Users\[name_user]\Desktop\Nouveau dossier" 20
-
-# La commande Param([type]$variable), cette commande permet d'identifier la partie contenant les paramètres, et d'envoyer au script certaines données
 # Get-ChildItem ($fichier) -File Affiche le contenu du dossier entré en paramètre après le script
 # Where CreationTime -lt (Get-Date).AddDays(-$date) Cherche un fichier plus vieux de X jours, entré en paramètre secondaire après le script
 # Remove-Item -Force supprime le fichier concerné
-
-
