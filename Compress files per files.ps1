@@ -9,10 +9,14 @@ $name = Get-ChildItem -Path ($fichier) -File | Select-Object -ExpandProperty Ful
 
 ForEach ($PC in $name) {
    $PC2 = $PC | ForEach-Object {$_.split(".")[0]} 
-   Compress-Archive -LiteralPath $PC -DestinationPath $PC2 
+   Compress-Archive -LiteralPath $PC -DestinationPath $PC2
+   #Compact -LiteralPath $PC -DestinationPath $PC2 #Windows Server
 }
 # On créé une boucle pour archiver chaque fichiers qui se trouvent dans le dossier.
 # {$_.split(".")[0]} permet de se débarrasser de l'extension des fichiers. 
 # $PC2 est ainsi un nom d'archive correcte (en incluent le chemin d'accès) pour chaque fichier à archiver.
 # $PC2 correspond à l'exemple : C:\Users\[name_user]\Desktop\files1
 # Compress-Archive -LiteralPath $PC -DestinationPath $PC2 compresse les fichiers par fichier grâce aux variables
+
+#Windows server 2012r2 remplacer le Compress-Achive par Compact
+# Compact -LiteralPath $PC -DestinationPath $PC2 compresse les fichiers par fichier grâce aux variables
