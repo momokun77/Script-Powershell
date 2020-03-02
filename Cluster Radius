@@ -1,0 +1,15 @@
+# Défintion de la date
+$date = get-date -Format yyyy_MM_dd
+# Export de la configuration NPS du server primaire 
+Export-NpsConfiguration -Path C:\NPS\Backup\NPSConfig_$date.xml
+Export-NpsConfiguration -Path C:\NPS\Backup\NPSConfig.xml
+# Définition Nom serveur Secondaire avec nom de domaine
+$NPSDestServer = "ServeurAD-Secondary.oracle.test"
+# Copie du fichier de configuration vers le serveur Secondaire
+Copy-Item -path C:\NPS\Backup\NPSConfig.xml -destination \\$NPSDestServer\C$\NPS\NPSConfig.xml
+# Export de la configuration actuel
+Invoke-Command -ComputerName $NPSDestServer -ScriptBlock {Export-NPSConfiguration -Path C:\NPS\BackupNPSConfig.xml}
+# Importation de la nouvelle configuration
+Invoke-Command -ComputerName $NPSDestServer -ScriptBlock {Import-NPSConfiguration -Path C:\NPS\NPSConfig.xml}
+
+Eingestellt von Tim  Traduit de l'anglais par momokun77
